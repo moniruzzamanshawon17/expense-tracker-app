@@ -1,5 +1,5 @@
 from typing import List, Optional
-
+from fastapi.responses import HTMLResponse # for design
 from fastapi import Depends, FastAPI, HTTPException, Query, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
@@ -17,13 +17,60 @@ from database import Base, engine, get_db
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="Personal Expense Tracker API")
+app = FastAPI(title="Expense Tracker API")
 
 
-@app.get("/")
+# @app.get("/")
+# def home():
+#     return {"message": "Expense Tracker API. Visit /docs to test."}
+
+# Just make a simple homepage for looking better!!
+
+@app.get("/", response_class=HTMLResponse, include_in_schema=False)
 def home():
-    return {"message": "Personal Expense Tracker API. Visit /docs to test."}
-
+    
+    return """
+    <html>
+    <head>
+        <title>Expense Tracker API</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background: #f4f6f9;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+            }
+            .box {
+                background: white;
+                padding: 40px 50px;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                text-align: center;
+            }
+            h1 { color: #2c3e50; margin-bottom: 10px; }
+            p { color: #7f8c8d; margin-bottom: 25px; }
+            a {
+                background: #009688;
+                color: white;
+                text-decoration: none;
+                padding: 12px 28px;
+                border-radius: 6px;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="box">
+            <h1>Expense Tracker API</h1>
+            <p>Built with FastAPI, PostgreSQL and JWT Authentication</p>
+            <a href="/docs">Go to API Docs</a>
+        </div>
+    </body>
+    </html>
+    """
 
 @app.post(
     "/auth/register",
