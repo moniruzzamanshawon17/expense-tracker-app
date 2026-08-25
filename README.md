@@ -29,12 +29,14 @@
 
 | | |
 |---|---|
-| **Interactive API Docs** | https://YOUR-APP.onrender.com/docs |
-| **Alternative Docs** | https://YOUR-APP.onrender.com/redoc |
-| **Source Code** | https://github.com/YOUR-USERNAME/YOUR-REPO |
+| **Live API** | https://expense-tracker-app-i31o.onrender.com |
+| **Interactive API Docs** | https://expense-tracker-app-i31o.onrender.com/docs |
+| **Alternative Docs** | https://expense-tracker-app-i31o.onrender.com/redoc |
+| **Source Code** | https://github.com/moniruzzamanshawon17/expense-tracker-app |
 
 > ⏳ **Note:** The API is hosted on Render's free tier, which sleeps after inactivity.
-> The first request may take up to a minute to wake the server. Subsequent requests are instant.
+> The first request may take up to a minute to wake the server — if you see a
+> "Not Found" response on first load, wait a moment and refresh. Subsequent requests are instant.
 
 ---
 
