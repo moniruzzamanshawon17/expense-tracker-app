@@ -4,7 +4,7 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 
-# ---------- User schemas ----------
+# User schemas 
 
 class UserCreate(BaseModel):
     """What the client sends to /auth/register."""
@@ -27,7 +27,7 @@ class Token(BaseModel):
     token_type: str
 
 
-# ---------- Transaction schemas ----------
+# Transaction schemas 
 
 class TransactionCreate(BaseModel):
     title: str

@@ -14,7 +14,7 @@ from auth import (
 )
 from database import Base, engine, get_db
 
-# Create the tables in the database if they do not exist yet
+
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Personal Expense Tracker API")
@@ -27,7 +27,7 @@ def home():
 
 @app.post(
     "/auth/register",
-    response_model=schemas.UserResponse,   # hides hashed_password
+    response_model=schemas.UserResponse,   # hashed_password
     status_code=status.HTTP_201_CREATED,
     tags=["Authentication"],
 )
@@ -96,7 +96,7 @@ def create_transaction(
         type=transaction.type,
         category=transaction.category,
         date=transaction.date,
-        owner_id=current_user.id,      # owner is taken from the token, not the client
+        owner_id=current_user.id,      
     )
     db.add(new_transaction)
     db.commit()
@@ -132,12 +132,12 @@ def filter_transactions(
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user),
 ):
-    # Start from this user's transactions only
+
     query = db.query(models.Transaction).filter(
         models.Transaction.owner_id == current_user.id
     )
 
-    # Add each filter only if the user actually sent it
+    
     if type is not None:
         query = query.filter(models.Transaction.type == type)
 

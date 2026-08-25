@@ -8,7 +8,6 @@ from sqlalchemy.orm import sessionmaker
 from database import Base, get_db
 from main import app
 
-# Use a separate SQLite file for testing so the real database is untouched
 TEST_DATABASE_URL = "sqlite:///./test.db"
 
 engine = create_engine(TEST_DATABASE_URL, connect_args={"check_same_thread": False})
@@ -34,12 +33,12 @@ def setup_database():
     Base.metadata.create_all(bind=engine)
     yield
     Base.metadata.drop_all(bind=engine)
-    engine.dispose()          # release the file so Windows lets us delete it
+    engine.dispose()          
     try:
         if os.path.exists("test.db"):
             os.remove("test.db")
     except PermissionError:
-        pass                  # harmless: file stays, tests already passed
+        pass                  
 
 
 @pytest.fixture(scope="module")
@@ -62,7 +61,7 @@ def headers():
     return {"Authorization": f"Bearer {token}"}
 
 
-# ---------------- Test 1: Create ----------------
+#Test 1: Create 
 
 def test_create_transaction(headers):
     response = client.post(
@@ -83,7 +82,7 @@ def test_create_transaction(headers):
     assert data["id"] == 1
 
 
-# ---------------- Test 2: Get all ----------------
+# Test 2: Get all 
 
 def test_get_all_transactions(headers):
     response = client.get("/transactions", headers=headers)
@@ -93,19 +92,18 @@ def test_get_all_transactions(headers):
     assert len(data) == 1
 
 
-# ---------------- Test 3: Get one ----------------
+# Test 3: Get one 
 
 def test_get_single_transaction(headers):
     response = client.get("/transactions/1", headers=headers)
     assert response.status_code == 200
     assert response.json()["title"] == "Lunch"
 
-    # A transaction that does not exist should give 404, not crash
     missing = client.get("/transactions/999", headers=headers)
     assert missing.status_code == 404
 
 
-# ---------------- Test 4: Update ----------------
+# Test 4: Update 
 
 def test_update_transaction(headers):
     response = client.put(
@@ -124,13 +122,13 @@ def test_update_transaction(headers):
     assert response.json()["amount"] == 500.0
 
 
-# ---------------- Test 5: Delete ----------------
+# Test 5: Delete 
 
 def test_delete_transaction(headers):
     response = client.delete("/transactions/1", headers=headers)
     assert response.status_code == 200
     assert "deleted" in response.json()["message"]
 
-    # It should be gone now
+    
     check = client.get("/transactions/1", headers=headers)
     assert check.status_code == 404

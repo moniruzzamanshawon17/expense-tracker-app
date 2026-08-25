@@ -29,5 +29,5 @@ class Transaction(Base):
     date = Column(Date, nullable=False)
     owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)
 
-    # Each transaction belongs to one user
+   
     owner = relationship("User", back_populates="transactions")
